@@ -6,6 +6,12 @@ from src.books.models import Book
 
 from .schemas import BookCreateModel, BookUpdateModel
 
+# select() → SQL query builder
+# desc() → sorting
+# AsyncSession → DB interaction
+# Book → table
+# schemas → request validation
+
 
 class BookService:
     async def get_all_books(self, session: AsyncSession):
@@ -39,7 +45,7 @@ class BookService:
         self, book_data: BookCreateModel, user_uid: str, session: AsyncSession
     ):
         book_data_dict = book_data.model_dump()
-
+        # Unpacks dict into model
         new_book = Book(**book_data_dict)
 
         new_book.published_date = datetime.strptime(
@@ -51,6 +57,7 @@ class BookService:
         session.add(new_book)
 
         await session.commit()
+        await session.refresh(new_book)
 
         return new_book
 
@@ -66,6 +73,7 @@ class BookService:
                 setattr(book_to_update, k, v)
 
             await session.commit()
+            await session.refresh(book_to_update)
 
             return book_to_update
         else:

@@ -3,10 +3,11 @@ from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+
 from src.books.service import BookService
 from src.db.main import get_session
 
-from .schemas import Book, BookCreateModel, BookUpdateModel, BookDetailModel
+from .schemas import Book, BookCreateModel, BookUpdateModel
 
 book_router = APIRouter()
 book_service = BookService()
@@ -68,7 +69,7 @@ async def update_book(
     updated_book = await book_service.update_book(book_uid, book_update_data, session)
 
     if updated_book is None:
-        raise BookNotFound()
+        raise {}
     else:
         return updated_book
 
@@ -83,6 +84,6 @@ async def delete_book(
     book_to_delete = await book_service.delete_book(book_uid, session)
 
     if book_to_delete is None:
-        raise BookNotFound()
+        raise {}
     else:
         return {}

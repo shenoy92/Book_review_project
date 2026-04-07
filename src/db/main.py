@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.asyncio.session import AsyncSession
+from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import SQLModel
 from sqlalchemy.orm import sessionmaker
 
@@ -7,6 +7,8 @@ from src.config import Config
 
 # Connection manager to your database
 #  echo=TrueLogs all SQL queries in console
+
+
 async_engine = create_async_engine(
     url=Config.DATABASE_URL,
     echo=True
